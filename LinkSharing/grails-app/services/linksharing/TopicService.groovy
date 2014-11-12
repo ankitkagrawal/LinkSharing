@@ -13,9 +13,9 @@ class TopicService {
 
     }
 
-    Boolean isUserSubscribedToTopic(String userId, String topicId){
+    Boolean isUserSubscribedToTopic(User user, Topic topic){
 
-        Subscription subscription = Subscription.find("from subscription where topic_id=${topicId} and user_id=${userId}")
+        Subscription subscription = Subscription.findByTopicAndUser(topic,user)
         if(subscription){return true}
         else return false
 
@@ -33,4 +33,49 @@ class TopicService {
             return false
         }
     }
+
+    Boolean subscribeUserToTopic(Topic topicInstance, User userInstance, Seriousness seriousness){
+
+        Subscription subscription = new Subscription(seriousness:seriousness, user:userInstance,topic:topicInstance)
+        if(subscription.validate()){
+            subscription.save flush: true
+            return true
+        }
+        else{
+            println subscription.errors
+            return false
+        }
+
+    }
+
+    List<Topic> trendingTopicList(){
+
+        List<Topic> topicList= Topic.list()
+
+        topicList.sort{
+            -it.resources.size()
+        }
+        return topicList.subList(0,5)
+
+        /*def criteria = Resource.createCriteria()
+
+        def result = criteria.list {
+
+            projections{
+                groupProperty('topic')
+                rowCount('total')
+            }
+
+            order('total','desc')
+            maxResults(5)
+
+
+        }*/
+
+        //println result
+
+
+    }
+
+
 }

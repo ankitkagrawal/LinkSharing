@@ -11,7 +11,7 @@ class ApplicationTagLib {
     if(type.equalsIgnoreCase("inbox")){
          out <<  "<g:render template='inbox'/> "
     }
-    else if(type.equalsIgnoreCase("inbox")){
+    else if(type.equalsIgnoreCase("recentPost")){
          out <<  "<g:render template='recentPost'/> "
     }
     else out<<""

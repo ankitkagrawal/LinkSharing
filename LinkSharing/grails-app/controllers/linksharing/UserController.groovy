@@ -9,10 +9,23 @@ import grails.transaction.Transactional
 class UserController {
 
     def scaffold = true
+    def topicService
 
     def dashboard(){
         User user = session["user"] as User
-        render(view:"dashboard",model: user)
+
+        List<ReadingItem> unreadItemList = ReadingItem.findAllByUserAndIsRead(user,false)
+
+        List<Resource> unreadResourceList = []
+        unreadItemList.each { readingItem ->
+            unreadResourceList << readingItem.resource
+        }
+
+       // List<Subscription> subscriptionList = Subscription.list(sort:"")
+
+        List<Topic> trendingTopics = topicService.trendingTopicList()
+
+        render(view:"dashboard",model: ["user":user,"itemList":unreadResourceList,"trendingTopics":trendingTopics])
     }
 
     @Transactional

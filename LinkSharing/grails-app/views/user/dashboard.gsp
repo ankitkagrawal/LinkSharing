@@ -14,23 +14,35 @@
         <div class="message" role="status">${flash.message}</div>
     </g:if>
     <div class="header" >
-        <g:message code="default.welcome.label" args='["${session["user"].firstName}"]' />
+        <g:message code="default.welcome.label" args='["${user?.firstName}"]' />
         <g:link controller="login" action="logoutHander" >Logout</g:link>
     </div>
 
     <div class="right-box">
-        <div class="inbox">
-            <table>
-                <th>header</th>
-                <tr><td>row1</td></tr>
-                <tr><td>row1</td></tr>
-                <tr><td>row1</td></tr>
+        <g:render template="inbox"></g:render>
+
+    </div>
+    <div class="left-box">
+        <g:render template="profile"></g:render>
+
+        <div class="trendingTopics">
+
+            <table class="topicTable">
+                <th>Trending Topics</th>
+                <% trendingTopics.each { topic -> %>
+                <tr><td>
+               <a href="" class="topicName"> <% println topic.name    %></a><br>
+                <a class="topicDetail"><% println "Subscriptions Post"%>
+                <br>
+                 <% println topic.subscripstions.size()+"   "+topic.resources.size()    %></a>
+                </td></tr>
+
+                <% } %>
             </table>
 
         </div>
 
     </div>
-    <div class="left-box">dsfsdsfdfsd</div>
 
 
 

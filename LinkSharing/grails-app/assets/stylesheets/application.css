@@ -11,45 +11,71 @@
 *= require mobile
 *= require_self
 */
-
 .header {
     margin-top: 0;
     text-align: right;
     margin-right: 18px;
 }
-
 .right-box {
-
-    width: 650px;
-    background-color: rgb(237, 225, 225);
+    width: 65%;
+    /*background-color: rgb(237, 225, 225);*/
     float: right;
     padding: 7px;
     margin: 10px;
-    border: solid;
-    border-width: thin;
-    border-color: rgb(208, 199, 199);
+    /*border: solid;*/
+    /*border-width: thin;*/
+    /*border-color: rgb(208, 199, 199);*/
 }
-
 .left-box{
-    width: 230px;
-    background-color: rgb(237, 225, 225);
-    float: right;
+    width: 30%;
+    /*background-color: rgb(237, 225, 225);*/
     padding: 7px;
     margin: 10px;
-    border: solid;
-    border-width: thin;
-    border-color: rgb(208, 199, 199);
+    /*border: solid;*/
+    /*border-width: thin;*/
+    /*border-color: rgb(208, 199, 199);*/
 }
-
 .inbox th{
     text-align: center;
-
-
 }
 .inbox tr{
     background-color: #abbf78;
     border: solid;
     border-width: thin;
     border-color: rgb(81, 77, 77);
+}
 
+.profile{
+    border: solid;
+    border-width: thin;
+    border-color: rgb(208, 199, 199);
+    background-color: #abbf78;
+    height: 105px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.profileImage{
+    float: left;
+    margin-right: 8px;
+}
+.profileInfo{
+}
+
+.trendingTopics{
+    float: left;
+    width: 285px;
+}
+
+.topicName{
+    font-size: 14px;
+    font-weight: bold;
+}
+.topicDetail{
+    font-size: 10px;
+}
+
+.topicTable tr,td{
+    padding: 0em;
+    line-height: normal;
 }

@@ -23,4 +23,20 @@ class ResourceService {
         readingItem.save(flush: true,failOnError: true)
 
     }
+
+    def populateUnreadItems(def resourceInstance){
+
+        List<Subscription> subscriptionList = Subscription.findAllByTopic(resourceInstance.topic)
+        List<User> userList = []
+        subscriptionList.each {subscription ->
+            userList << subscription.user
+        }
+
+        userList.each { user ->
+
+            new ReadingItem(user:user,resource: resourceInstance,isRead: false).save( flash :true)
+        }
+    }
+
+
 }

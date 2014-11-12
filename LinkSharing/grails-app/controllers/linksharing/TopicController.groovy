@@ -8,6 +8,8 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class TopicController {
 
+    TopicService topicService
+
     def scaffold = true
 
     @Transactional
@@ -23,8 +25,8 @@ class TopicController {
         }
 
         topicInstance.save flush:true
-        TopicService topicService
-                topicService.subscribeCreator(topicInstance)
+
+        topicService.subscribeCreator(topicInstance)
 
         request.withFormat {
             form multipartForm {
