@@ -35,11 +35,17 @@ class UserController {
             notFound()
             return
         }
+
+        if (userCommandInstance.hasErrors()) {
+            respond userCommandInstance.errors,  view:'../login/login'
+            return
+        }
+
         User userInstance =userService.savePhotoAndReturnUser(userCommandInstance)
 
 
         if (userInstance.hasErrors()) {
-            respond userInstance.errors, view:'create'
+            respond userInstance.errors, view:'user/login'
             return
         }
        // println "2......"
@@ -70,14 +76,32 @@ class UserController {
 
 class UserCommand{
 
+    static def final IMAGE_TYPE = ["image/jpg","image/jpeg","image/png","image/bmp","image/gif"]
+
     String email
     String userName
     String password
     String firstName
     String lastName
+    String confirmPassword
     CommonsMultipartFile photo
 
     static constraints={
         importFrom User
+
+        photo nullable: false,blank:false, validator: {val ->
+                                                     if(!IMAGE_TYPE.contains(val.contentType)){
+                                                        return  "image.upload.validator"
+                                                            }
+                                                        }
+        confirmPassword nullable: false, blank: false
+
+        password validator: { val, obj ->
+            if(!val.equals(obj.confirmPassword)){
+                return "password.no.match"
+            }
+        }
+
     }
+
 }

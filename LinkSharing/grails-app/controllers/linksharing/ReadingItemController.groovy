@@ -5,13 +5,17 @@ package linksharing
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 class ReadingItemController {
     def scaffold = true
 
-//    def markAsRead(Boolean flag,Resource resource,User user){
-//
-//        new ResourceService().markResourceReadUnread(flag,resource,user)
-//
-//    }
+    def resourceService
+
+    def markAsRead(){
+
+        resourceService.markResourceReadUnread(params.resource,params.user)
+
+        redirect(controller: 'user', action: 'dashboard' )
+
+    }
 }
