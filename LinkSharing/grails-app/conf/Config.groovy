@@ -88,6 +88,13 @@ grails.hibernate.osiv.readonly = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+        user.photo.location.login= "grails-app/assets/images/user/"
+        user.photo.location.profile="/LinkSharing/assets/user/"
+
+    }
+    qa {
+        user.photo.location.login= "grails-app/assets/images/user/"
+        user.photo.location.profile="/LinkSharing/assets/user/"
     }
     production {
         grails.logging.jul.usebridge = false

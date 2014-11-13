@@ -70,7 +70,8 @@ class TopicService {
             maxResults(5)
 
 
-        }*/
+        }
+        return result*/
 
         //println result
 

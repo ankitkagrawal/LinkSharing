@@ -45,7 +45,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form controller="user" action='save' >
+    <g:form controller="user" action='save' enctype="multipart/form-data">
         <fieldset class="form">
             <g:render template="form_register"/>
         </fieldset>

@@ -1,5 +1,7 @@
 package linksharing
 
+import org.springframework.web.multipart.MultipartFile
+
 class User {
 
     String email
@@ -7,7 +9,7 @@ class User {
     String password
     String firstName
     String lastName
-    //Byte[] photo
+    String userPhoto
     Boolean admin=false
     Boolean active=true
     Date dateCreated
@@ -26,4 +28,5 @@ class User {
         topics display:false
         resources display:false
     }
+
 }

@@ -1,6 +1,7 @@
 package linksharing
 
-
+import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -10,8 +11,10 @@ class UserController {
 
     def scaffold = true
     def topicService
+    def userService
 
     def dashboard(){
+
         User user = session["user"] as User
 
         List<ReadingItem> unreadItemList = ReadingItem.findAllByUserAndIsRead(user,false)
@@ -21,24 +24,25 @@ class UserController {
             unreadResourceList << readingItem.resource
         }
 
-       // List<Subscription> subscriptionList = Subscription.list(sort:"")
-
         List<Topic> trendingTopics = topicService.trendingTopicList()
 
         render(view:"dashboard",model: ["user":user,"itemList":unreadResourceList,"trendingTopics":trendingTopics])
     }
 
     @Transactional
-    def save(User userInstance) {
-        if (userInstance == null) {
+    def save(UserCommand userCommandInstance) {
+        if (userCommandInstance == null) {
             notFound()
             return
         }
+        User userInstance =userService.savePhotoAndReturnUser(userCommandInstance)
+
 
         if (userInstance.hasErrors()) {
             respond userInstance.errors, view:'create'
             return
         }
+       // println "2......"
 
         userInstance.save flush:true
 
@@ -50,7 +54,7 @@ class UserController {
 //           '*' { respond userInstance, [status: CREATED] }
 
         LoginController lc = new LoginController()
-                lc.loginHandler(userInstance.userName)
+                lc.loginHandler(userInstance)
         }
 
     protected void notFound() {
@@ -61,5 +65,19 @@ class UserController {
             }
             '*'{ render status: NOT_FOUND }
         }
+    }
+}
+
+class UserCommand{
+
+    String email
+    String userName
+    String password
+    String firstName
+    String lastName
+    CommonsMultipartFile photo
+
+    static constraints={
+        importFrom User
     }
 }

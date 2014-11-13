@@ -27,6 +27,16 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'photo', 'error')} required">
+    <label for="photo">
+        <g:message code="user.photo.label" default="Photo" />
+        <span class="required-indicator">*</span>
+    </label>
+    <input type="file" id="photo" name="photo" value="${userInstance?.photo}"/>
+
+</div>
+
+
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'email', 'error')} required">
     <label for="email">
