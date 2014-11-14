@@ -90,11 +90,13 @@ environments {
         grails.logging.jul.usebridge = true
         user.photo.location.login= "grails-app/assets/images/user/"
         user.photo.location.profile="/LinkSharing/assets/user/"
+        photo.location.default="/LinkSharing/assets/"
 
     }
     qa {
         user.photo.location.login= "grails-app/assets/images/user/"
         user.photo.location.profile="/LinkSharing/assets/user/"
+        photo.location.default="/LinkSharing/assets/"
     }
     production {
         grails.logging.jul.usebridge = false

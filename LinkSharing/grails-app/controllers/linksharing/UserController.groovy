@@ -25,8 +25,10 @@ class UserController {
         }
 
         List<Topic> trendingTopics = topicService.trendingTopicList()
+        List<Topic> subscribedTopics = topicService.subscribedTopicList(user)
 
-        render(view:"dashboard",model: ["user":user,"itemList":unreadResourceList,"trendingTopics":trendingTopics])
+        render(view:"dashboard",model: ["user":user,"itemList":unreadResourceList,"trendingTopics":trendingTopics,\
+         "subscribedTopicList":subscribedTopics])
     }
 
     @Transactional

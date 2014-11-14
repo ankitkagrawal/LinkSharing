@@ -20,33 +20,47 @@
 
     <div class="right-box">
         <g:render template="inbox"></g:render>
-
     </div>
     <div class="left-box">
         <g:render template="profile"></g:render>
 
         <div class="trendingTopics">
+           <g:render template="trending_topic"></g:render>
+        </div>
+        <div class="trendingTopics">
+            <g:render template="subscriptions"></g:render>
+        </div>
+
+        <div class="trendingTopics">
 
             <table class="topicTable">
-                <th>Trending Topics</th>
-                <% trendingTopics.each { topic -> %>
+                <th>Create Topic</th>
+                <g:form controller="topic" action="save" >
                 <tr><td>
-               <a href="" class="topicName"> <% println topic.name    %></a><br>
-                <a class="topicDetail"><% println "Subscriptions Post"%>
-                <br>
-                 <% println topic.subscripstions.size()+"   "+topic.resources.size()    %></a>
+                    <g:hasErrors bean="${topicInstance}">
+                        <ul class="errors" role="alert">
+                            <g:eachError bean="${topicInstance}" var="error">
+                                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+                            </g:eachError>
+                        </ul>
+                    </g:hasErrors>
                 </td></tr>
+                <tr><td>
+                    %{--<fieldset class="form">--}%
+                        <g:render template="topic_create"/>
+                    %{--</fieldset>--}%
+                    %{--<fieldset class="buttons">--}%
+                        <g:submitButton name="create" class="save" value="${message(code: 'default.register.label', default: 'Create')}" />
+                    %{--</fieldset>--}%
 
-                <% } %>
+                </td></tr>
+                <tr><td>
+                </td></tr>
+                </g:form>
             </table>
 
         </div>
-
     </div>
-
-
-
-
 </div>
 </body>
 </html>

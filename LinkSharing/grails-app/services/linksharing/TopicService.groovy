@@ -50,12 +50,12 @@ class TopicService {
 
     List<Topic> trendingTopicList(){
 
-        List<Topic> topicList= Topic.list()
+        List<Topic> topicList= Topic.findAllByVisibility(Visibility.PUBLIC)
 
         topicList.sort{
             -it.resources.size()
         }
-        return topicList.subList(0,5)
+        return topicList.size()>5?topicList.subList(0,5):topicList
 
         /*def criteria = Resource.createCriteria()
 
@@ -78,5 +78,36 @@ class TopicService {
 
     }
 
+    List<Topic> subscribedTopicList (User user1){
 
-}
+        List<Subscription> topicList = Subscription.createCriteria().listDistinct {
+
+             projections{
+                        groupProperty('topic')
+                    }
+            "user" {
+                    eq('id', user1.id)
+            }
+
+            "topic"{
+                "resources"{
+                    order('dateCreated','desc')
+                }
+            }
+            maxResults(5)
+
+        }
+//        println topicList
+
+        return  topicList
+        }
+
+
+
+
+
+
+    }
+
+
+

@@ -5,36 +5,52 @@ package linksharing
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 class TopicController {
 
     TopicService topicService
 
     def scaffold = true
 
-    @Transactional
     def save(Topic topicInstance) {
+
         if (topicInstance == null) {
             //notFound()
             return
         }
 
+        topicInstance.user=session["user"] as User
+
+/*
         if (topicInstance.hasErrors()) {
             respond topicInstance.errors, view:'create'
             return
         }
+*/
 
         topicInstance.save flush:true
 
         topicService.subscribeCreator(topicInstance)
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'topic.label', default: 'Topic'), topicInstance.id])
-                redirect topicInstance
-            }
-            '*' { respond topicInstance, [status: CREATED] }
+//        respond view: 'index',params:["topic":topicInstance]
+
+        index(topicInstance)
+
+    }
+
+    def index(Topic topic){
+
+        List<Resource> resourceList= []
+        topic.resources.each {
+            resourceList<<it
         }
+
+        render(view: "index",model:["topic":topic,"itemList":resourceList])
+    }
+
+    def show(Integer topicId){
+        Topic topic = Topic.findById(topicId)
+        index(topic)
     }
 
 

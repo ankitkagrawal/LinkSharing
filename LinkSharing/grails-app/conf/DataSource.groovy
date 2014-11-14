@@ -1,5 +1,6 @@
 dataSource {
     pooled = true
+    loggingSql = true
     driverClassName = "com.mysql.jdbc.Driver"
     dialect = org.hibernate.dialect.MySQL5InnoDBDialect
     username = "root"
@@ -18,6 +19,7 @@ hibernate {
 environments {
     development {
         dataSource {
+            loggingSql = true
             dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:mysql://localhost:3306/LinkSharing"
         }
