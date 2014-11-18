@@ -13,10 +13,10 @@
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
-    <div class="header" >
+    %{--<div class="header" >
         <g:message code="default.welcome.label" args='["${user?.firstName}"]' />
         <g:link controller="login" action="logoutHander" >Logout</g:link>
-    </div>
+    </div>--}%
 
     <div class="right-box">
         <g:render template="inbox"></g:render>
@@ -50,7 +50,7 @@
                         <g:render template="topic_create"/>
                     %{--</fieldset>--}%
                     %{--<fieldset class="buttons">--}%
-                        <g:submitButton name="create" class="save" value="${message(code: 'default.register.label', default: 'Create')}" />
+                        <g:submitButton name="create" class="save" value="${message(code: 'default.register.label1', default: 'Create')}" />
                     %{--</fieldset>--}%
 
                 </td></tr>

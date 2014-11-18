@@ -21,12 +21,13 @@ class TopicService {
 
     }
 
-    Boolean subscribeCreator(Topic topicInstance){
+    def subscribeCreator(Topic topicInstance){
 
         Subscription subscription = new Subscription(seriousness: Seriousness.VERY_SERIOUS, user:topicInstance.user,topic:topicInstance)
         if(subscription.validate()){
-            subscription.save flush: true
-            return true
+            subscription.save flush: true,failOnError: true
+            topicInstance.addToSubscriptions(subscription)
+            return topicInstance
         }
         else{
             println subscription.errors

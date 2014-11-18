@@ -1,5 +1,6 @@
 package linksharing
 
+import grails.validation.Validateable
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
@@ -76,6 +77,7 @@ class UserController {
     }
 }
 
+@Validateable
 class UserCommand{
 
     static def final IMAGE_TYPE = ["image/jpg","image/jpeg","image/png","image/bmp","image/gif"]

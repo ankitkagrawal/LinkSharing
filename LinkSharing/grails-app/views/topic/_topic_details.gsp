@@ -1,15 +1,15 @@
 <div class="profile">
     <div class="profileImage">
-        <g:img uri="${grailsApplication.config.user.photo.location.profile+user.userPhoto}" width="100" height="100" ></g:img>
+        <g:img uri="${grailsApplication.config.photo.location.default}" width="80" height="80" ></g:img>
     </div>
     <div class="profileInfo">
-        <% println user.firstName+" "+user.lastName %>
-        <br/>
-        @ankit
+        <% println "${topic.name}"%>
+        <br>
+        <% println "@${topic.name}" %>
         <br/><br/>
         Subscription Topic
         <br/>
-        40  20
+        <% println "${topic.subscriptions?.size()?:0}  ${topic.resources?.size()?:0}"%>
     </div>
 
 </div>

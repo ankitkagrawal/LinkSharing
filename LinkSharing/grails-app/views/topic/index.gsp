@@ -3,7 +3,7 @@
 <head>
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'login.label', default: 'Login')}" />
-    <title><g:message code="default.login.label" args="[entityName]" /></title>
+    <title><g:message code="default.topic.label" args="[entityName]" /></title>
 </head>
 <body>
 
@@ -14,18 +14,19 @@
         <div class="message" role="status">${flash.message}</div>
     </g:if>
 </div>
-
+%{--<div class="header" >
+    <g:message code="default.welcome.label" args='["${session["user"].firstName}"]' />
+    <g:link controller="login" action="logoutHander" >Logout</g:link>
+</div>--}%
 
 <div class="right-box">
 <g:render template="post_list"></g:render>
 
 </div>
 <div class="left-box" >
-    <div class="profile">
-        %{--<g:render template="topicDetails"></g:render>--}%
-    </div>
+        <g:render template="topic_details"></g:render>
     <div class="trendingTopics">
-        %{--<g:render template="topicUserList"></g:render>--}%
+        <g:render template="topic_user_list"></g:render>
     </div>
 </div>
 </body>

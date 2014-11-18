@@ -10,10 +10,10 @@ class Topic {
 
     static belongsTo = [user : User]
 
-    static hasMany = [subscripstions:Subscription,resources:Resource]
+    static hasMany = [subscriptions:Subscription,resources:Resource]
 
     static constraints = {
-        subscripstions display:false
+        subscriptions display:false
         resources display:false
         dateCreated display:false
         lastUpdated display:false

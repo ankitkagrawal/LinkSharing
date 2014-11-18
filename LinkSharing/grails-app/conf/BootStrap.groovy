@@ -51,9 +51,9 @@ delete from resource where id>50;
 
     def createTopic(){
 
-        userList.each{user ->
+        userList.eachWithIndex{user,idx ->
             5.times {
-                Topic topic = new Topic(name: "topic${it + 1}", visibility: Visibility.PUBLIC, user: user)
+                Topic topic = new Topic(name: "topic${it + 1}--${idx}", visibility: Visibility.PUBLIC, user: user)
                         topic.save(flush: true,failOnError: true)
                         topicService.subscribeCreator(topic)
                 topicList<<topic
@@ -74,12 +74,12 @@ delete from resource where id>50;
 
     def createResources(){
 
-        topicList.each { topic ->
+        topicList.eachWithIndex { topic,idx ->
             5.times {
-                LinkResource linkResource=   new LinkResource(topic: topic,title: "LinkedResource${it}",\
+                LinkResource linkResource=   new LinkResource(topic: topic,title: "LinkedResource${it}--${idx}",\
                   description: "desc", user: topic.user, url: "url ${it}").save(failOnError: true)
                 resourceService.populateUnreadItems(linkResource)
-                DocumentResource documentResource =   new DocumentResource(topic: topic,title: "DocResource${it}",\
+                DocumentResource documentResource =   new DocumentResource(topic: topic,title: "DocResource${it}--${idx}",\
                   description: "desc", user: topic.user, path: "path ${it}").save(failOnError: true)
                 resourceService.populateUnreadItems(documentResource)
             }

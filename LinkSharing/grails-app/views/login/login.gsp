@@ -20,7 +20,7 @@
             </g:eachError>
         </ul>
     </g:hasErrors>
-    <g:form controller="login" action="index" >
+    <g:form controller="login" action="loginHandler" >
         <fieldset class="form">
             <g:render template="form"/>
         </fieldset>
@@ -55,8 +55,6 @@
         </fieldset>
     </g:form>
 </div>
-
-
 <!-- ------------------------    Register           ------------------------ -->
 </body>
 </html>

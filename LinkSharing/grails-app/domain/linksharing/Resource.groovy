@@ -4,9 +4,6 @@ abstract class Resource {
 
     String title
     String description
-
-    //User createdBy
-//   Topic topic
     Date dateCreated
     Date lastUpdated
 
@@ -22,6 +19,8 @@ abstract class Resource {
         dateCreated display:false
         lastUpdated display:false
         title unique: 'topic'
+        user nullable: true
+
 
     }
 }

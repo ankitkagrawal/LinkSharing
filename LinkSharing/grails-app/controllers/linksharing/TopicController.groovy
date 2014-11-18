@@ -28,9 +28,9 @@ class TopicController {
         }
 */
 
-        topicInstance.save flush:true
+        topicInstance.save flush:true,failOnError: true
 
-        topicService.subscribeCreator(topicInstance)
+        topicInstance=topicService.subscribeCreator(topicInstance)
 
 //        respond view: 'index',params:["topic":topicInstance]
 
@@ -45,7 +45,7 @@ class TopicController {
             resourceList<<it
         }
 
-        render(view: "index",model:["topic":topic,"itemList":resourceList])
+        render(view: "index",model:["topic":topic,"itemList":resourceList,"userList":topic.subscriptions?.user])
     }
 
     def show(Integer topicId){

@@ -108,7 +108,7 @@ img {
 }
 
 .footer {
-	background: #abbf78;
+	background: #6DBEED;
 	color: #000;
 	clear: both;
 	font-size: 0.8em;
@@ -261,7 +261,7 @@ select[multiple] {
 }
 
 textarea {
-	width: 250px;
+	width: 190px;
 	height: 150px;
 	overflow: auto; /* IE always renders vertical scrollbar without this */
 	vertical-align: top;

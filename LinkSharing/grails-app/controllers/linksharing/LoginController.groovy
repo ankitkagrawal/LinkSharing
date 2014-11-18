@@ -5,30 +5,25 @@ class LoginController {
     def userService
 
     def index() {
-
-        User user = User.findWhere(userName: params.username,\
-        password: params.password)
-
-        if(user?.active) {
-            loginHandler(user)
-        }
-        else{
-            failedLoginRedirect()
-        }
-    }
-
-    def failedLoginRedirect(){
         render(view:"login")
     }
 
-    def loginHandler(User user){
-//        session["userName"]=user.userName
-        session["user"]=user
-        redirect(controller: 'user', action: 'dashboard' )
+    def loginHandler(){
+
+        User user = User.findWhere(userName: params.username,password: params.password)
+
+        if(user?.active) {
+            session["user"]=user
+            redirect(controller: 'user', action: 'dashboard' )
+        }
+        else{
+            index()
+        }
     }
 
     def logoutHander(String userName){
         session["user"]=null
+        session.invalidate()
         render(view:"login")
     }
 

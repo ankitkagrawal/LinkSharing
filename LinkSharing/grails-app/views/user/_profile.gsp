@@ -9,7 +9,7 @@
         <br/><br/>
         Subscription Topic
         <br/>
-        40  20
+       2 10 %{--${user.topics.size()}--${user.resources.size()}--}%
     </div>
 
 </div>

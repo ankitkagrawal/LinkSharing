@@ -20,7 +20,7 @@
     width: 65%;
     /*background-color: rgb(237, 225, 225);*/
     float: right;
-    padding: 7px;
+    padding: 2px;
     margin: 10px;
     /*border: solid;*/
     /*border-width: thin;*/
@@ -46,7 +46,7 @@
 }
 
 .profile{
-    border: solid;
+    border: none;
     border-width: thin;
     border-color: rgb(208, 199, 199);
     background-color: #abbf78;

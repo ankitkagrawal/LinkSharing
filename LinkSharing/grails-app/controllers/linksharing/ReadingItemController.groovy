@@ -13,7 +13,7 @@ class ReadingItemController {
 
     def markAsRead(){
 
-        resourceService.markResourceReadUnread(params.resource,params.user)
+        resourceService.markResourceReadUnread(params.resource,params.user,(params.read).equals("true"))
 
         redirect(controller: 'user', action: 'dashboard' )
 
