@@ -11,7 +11,8 @@ class ApplicationFilters {
                     return true
                 }
                 else {
-                    redirect (controller: "login",action: "index",flash:[message:"Session expired.."])
+                    flash.message=""
+                    redirect (controller: "login",action: "index"/*,flash:[message:"Session expired.."]*/)
                     return false
                 }
 

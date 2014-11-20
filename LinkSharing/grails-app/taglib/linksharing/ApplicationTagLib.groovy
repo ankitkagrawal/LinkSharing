@@ -39,51 +39,122 @@ class ApplicationTagLib {
             topicList.each { topic ->
 
                 out << "<tr><td><div style=\"float: left;padding: 5px;\">"
-                out << g.img(uri: "${grailsApplication.config.user.photo.location.profile+topic.user.userPhoto}",width:"80", height:"80")
+                out << g.img(uri: "${grailsApplication.config.user.photo.location.profile+topic.user.userPhoto}",width:"80", \
+                 height:"80")
                 out << "</div><div style=\"padding: 5px;\">"
                 out << g.link(controller: "topic", action: "show", params: [topicId: topic.id]){ "${ topic.name }" }
                 out << "</div><div style=\"font-size: x-small;\">@${topic.name}</div><div style=\"float: left;margin: 5px;\">"
-                out << "<a class=\"topicDetail\">Subscriptions <br>${topic.subscriptions.size()}</div><div style=\"float: left;margin: 5px;\"> Posts <br>${topic.resources.size()} </div>" +
-                        "</td></tr>"
+                out << "<a class=\"topicDetail\">Subscriptions <br>${topic.subscriptions.size()}</a></div><div style=\"float:left;margin: 5px;\"><a class=\"topicDetail\">Posts<br>${topic.resources.size()}</a></div>"
+
+                out << "<div style=\"clear: left;\">"
+
+                out<< isEditable(topic: topic)
+
+                out << "</div>"
+
+                out<< "</td></tr>"
             }
         }
     }
 
     def isEditable = { attrs ->
+        Topic topic = attrs.topic
+        User user =session["user"]
 
-        String topicId = attrs.topicId
-        String userId = attrs.userId
+        if(topic.user.id==user.id) {
 
-        TopicService topicService = new TopicService()
+            out << "<div style=\"float:left;\">"
 
-        if(topicService.isUserCreatorOfTopic(topicId,userId)){
-            out << "<g:render template='editTopic'/> "
+            def formAttr = [controller: "topic", action: "update"]
+            def formBody = g.select(from: Seriousness.values(), name: "seriousness", value: Subscription.
+                    findByTopicAndUser(topic,user)?.seriousness,class: "formAttr")
+            formBody += g.select(from: Visibility.values(), name: "visibility", value: topic.visibility,class: "formAttr")
+            formBody += g.submitButton(name: "Submit", value: "Submit",class: "formAttr",style: "width:43px;")
+            formBody += g.hiddenField(name: "topicId",value: topic.id)
+            formBody += g.hiddenField(name: "userId",value: user.id)
+
+            out << g.form(formAttr, formBody)
+
+            out << "</div><div style=\"padding-top: 2px;padding-left: 200px;\">"
+
+            def mailLinkAttr =[controller: "mail",action: "index",params: [id: topic.id]]
+            def mailLinkBody = asset.image(src:"mail-icon.png", width:"18", height:"18",title:"Send Invitation")
+            out << g.link(mailLinkAttr,mailLinkBody)
+
+            def linkAttr = [controller: "topic",action: "deleteTopic",params: [topicId: topic.id],onclick:"return confirm(\"Delete ${topic.name}?\")"]
+            def imgAttr = asset.image(src:"delete.png", width:"18", height:"18",title:"Delete Topic")
+            out << g.link(linkAttr,imgAttr)
+
+            out<<"</div>"
+
         }
         else {
-            out << ""
+           out<< isSubscribed(topic: topic)
         }
+
     }
 
     def isSubscribed ={attrs ->
 
-        String topicId = attrs.topicId
-        String userId = attrs.userId
+        Topic topic = attrs.topic
+        User user = session["user"]
+        Subscription subscription = Subscription.findByTopicAndUser(topic,user)
 
-        SubscriptionService subscriptionService = new SubscriptionService()
-        if(subscriptionService.isUserSubscribedToTopic(topicId,userId)){
-            out << "<g:render template='showEmailAndSeriousness'/> "
-        }
-        else{
-            out << "<g:render template='subscribeTopic'/> "
+        if(subscription!=null && topic.user.id!=user.id) {
+
+            out << "<div style=\"float:left;\">"
+
+            def formAttr = [controller: "subscription", action: "update"]
+            def formBody = g.select(from: Seriousness.values(), name: "seriousness", value: Subscription.
+                    findByTopicAndUser(topic, user)?.seriousness,class: "formAttr")
+            formBody += g.submitButton(name: "Submit", value: "Submit",class: "formAttr",style: "width:43px;")
+            formBody += g.hiddenField(name: "topicId",value: topic.id)
+            formBody += g.hiddenField(name: "userId",value: user.id)
+            out << g.form(formAttr, formBody)
+            out<<"</div>"
+
+            out << "<div style=\"float:left;\">"
+            formAttr = [controller: "subscription", action: "unSubscribe"]
+            formBody = g.submitButton(name:"unsubscribe",value:"Unsubscribe",class: "formAttr")
+            formBody += g.hiddenField(name: "topicId",value: topic.id)
+            formBody += g.hiddenField(name: "userId",value: user.id)
+            out << g.form(formAttr, formBody)
+
+            out << "</div><div style=\"padding-top: 2px;padding-left: 200px;\">"
+//            out << asset.image(src:"mail-icon.png", width:"18", height:"18",title:"Send Invitation")
+            def mailLinkAttr =[controller: "mail",action: "index",params: [id: topic.id]]
+            def mailLinkBody = asset.image(src:"mail-icon.png", width:"18", height:"18",title:"Send Invitation")
+            out << g.link(mailLinkAttr,mailLinkBody)
+            out<<"</div>"
+
+        }else {
+           out<< isNotSubscribed(topic: topic)
         }
     }
 
-    def isRead={ attrs ->
+    def isNotSubscribed={attrs ->
 
-        String userId = attrs.userId
-        String postId = attrs.resourceId
+        Topic topic = attrs.topic
+        User user =session["user"]
+        Subscription subscription = Subscription.findByTopicAndUser(topic,user)
 
-         return resourceService.isPostRead(userId,postId)
+        if(topic.user.id!=user.id && subscription==null) {
+
+            out << "<div style=\"float:left;\">"
+
+            def formAttr = [controller: "subscription", action: "addNewSubscription"]
+            def formBody = g.select(from: Seriousness.values(), name: "seriousness",class: "formAttr",style: "width:105px;")
+            formBody += g.submitButton(name: "subscribe", value: "subscribe",class: "formAttr",style: "width:63px;")
+            formBody += g.hiddenField(name: "topicId",value: topic.id)
+            formBody += g.hiddenField(name: "userId",value: user.id)
+
+            out << g.form(formAttr, formBody)
+
+            out<<"</div>"
+
+        }
+
+
     }
 
     def showResource={ attrs ->
@@ -114,36 +185,48 @@ class ApplicationTagLib {
 
             out << "</div>"
 
-/*          out<< "<div style=\"float: right;margin-bottom: 2px;margin-top: 2px;margin-left: 10px;\">"
-
-
-            if(resource.user.id==user.id){
-                out << "Delete"
-            }
-            out<< "</div>"
-*/
-
             out<< "<div style=\"float: right;margin-bottom: 2px;margin-top: 2px;margin-left: 10px;\">"
 
-            if (resource instanceof LinkResource) {
-               out << g.link(target: "_blank", url: "${resource.url}") {"View full site"}
-
-            } else if (resource instanceof DocumentResource) {
-                out << g.link(controller: "documentResource", action: "download",params:[resourcePath: resource.path,resourceName:resource.title]) { "Download"}
-            }
+            out << resourceViewOption(resource: resource)
 
             out<< "</div><div style=\"float: right;margin-bottom: 2px;margin-top: 2px;margin-left: 10px;\">"
 
-            if(!resourceService.isPostRead(session["user"],resource)) {
-                out << g.link([controller: "readingItem", action: "markAsRead", params: [resource: resource.id, user: session["user"].id,read:true]]){ "Mark as read" }
-            }
-            else
-            {
-                out << g.link([controller: "readingItem", action: "markAsRead", params: [resource: resource.id, user: session["user"].id,read:false]]){ "Mark as unread"}
-            }
-            out << "</div><div style=\"float: right;margin-bottom: 2px;margin-top: 2px;\">View Post</div></td></tr>"
+            out<< markResourceReadUnread(resource: resource)
+
+            out << "</div><div style=\"float: right;margin-bottom: 2px;margin-top: 2px;\">View Post</div>"
+
+            out<< "</td></tr>"
+
         }
     }
+
+    def resourceViewOption = { attrs ->
+        def resource = attrs.resource
+
+        if(resource instanceof  LinkResource){
+            out << g.link(target: "_blank", url: "${resource.url}") {"View full site"}
+        }
+        else if(resource instanceof DocumentResource){
+            out << g.link(controller: "documentResource", action: "download",params:[resourcePath: resource.path,\
+             resourceName:resource.title]) { "Download"}
+        }
+    }
+
+    def markResourceReadUnread={ attrs ->
+
+        def resource = attrs.resource
+
+        if(!resourceService.isPostRead(session["user"],resource)) {
+            out << g.link([controller: "readingItem", action: "markAsRead", params: [resource: resource.id, user: session["user"].id,\
+             read:true]]){ "Mark as read" }
+        }
+        else
+        {
+            out << g.link([controller: "readingItem", action: "markAsRead", params: [resource: resource.id, user: session["user"].id,\
+             read:false]]){ "Mark as unread"}
+        }
+    }
+
 
     def showUsersList ={ attrs ->
 
@@ -155,8 +238,8 @@ class ApplicationTagLib {
             out << "</div><div style=\"padding: 5px;\">"
             out << g.link(controller: "user", action: "showUserProfile", params: [userId: user.id]){ "${ user.firstName+" "+user.lastName}" }
             out << "</div><div style=\"font-size: x-small;\">@${user.firstName}</div><div style=\"float: left;margin: 5px;\">"
-            out << "<a class=\"topicDetail\">Subscriptions <br>${user.topics.size()}</div><div style=\"float: left;margin: 5px;\"> Posts <br>${user.resources.size()} </div>" +
-                    "</td></tr>"
+            out << "<a class=\"topicDetail\">Subscriptions <br>${user.topics.size()}</div><div style=\"float: left;margin: 5px;\"> Posts <br>"+
+                    "${user.resources.size()} </div></td></tr>"
         }
     }
 }

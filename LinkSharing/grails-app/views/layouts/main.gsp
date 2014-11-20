@@ -30,15 +30,15 @@
     <div style="height: 45px; background-image:-moz-linear-gradient(top,#ADC8F9,#D2EEFF); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ADC8F9), color-stop(1, #D2EEFF));">
         <div style="float: left;margin-left: 310px;padding: 11px;">
             <g:form controller="topic" action="search">
-                <g:textField style="border: none;border-radius: 10px;background: white url(/LinkSharing/assets/search.jpg) no-repeat 0% 0%;padding-left: 24px;" name="search_text" ></g:textField>
+                <g:textField id="search_text" style="border: none;border-radius: 10px;background: white url(${grailsApplication.config.assets.location}/search.jpg) no-repeat 0% 0%;padding-left: 24px;" name="search_text" value="Search..." onfocus="toggleSearch()" onblur="toggleSearch()"></g:textField>
             </g:form>
         </div>
 
         <div style="float: right; padding: 7px;margin-right: 55px;">
-            <asset:image src="chat-icon1.ico" width="30" height="30" alt="Home"></asset:image>
-            <asset:image src="mail-icon.png" width="30" height="30" alt="Home"></asset:image>
-            <g:link controller="linkResource" action="create" ><asset:image src="link-icon1.png" width="30" height="30" alt="Home"></asset:image></g:link>
-            <g:link controller="documentResource" action="create" ><asset:image src="doc-icon.png" width="30" height="30" alt="Home"></asset:image></g:link>
+            <asset:image src="chat-icon1.ico" width="30" height="30" alt="Home" title="Create New Topic"></asset:image>
+            <g:link controller="mail" action="index" ><asset:image src="mail-icon.png" width="30" height="30" alt="Home" title="Send Invitation"></asset:image></g:link>
+            <g:link controller="linkResource" action="create" ><asset:image src="link-icon1.png" width="30" height="30" alt="linkResource" title="Add Link Resource"></asset:image></g:link>
+            <g:link controller="documentResource" action="create" ><asset:image src="doc-icon.png" width="30" height="30" alt="docResource" title="Add Document Resource"></asset:image></g:link>
             <g:link controller="login" action="logoutHander" >Logout</g:link>
         </div>
     </div>

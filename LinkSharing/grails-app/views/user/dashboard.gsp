@@ -35,7 +35,7 @@
 
             <table class="topicTable">
                 <th>Create Topic</th>
-                <g:form controller="topic" action="save" >
+
                 <tr><td>
                     <g:hasErrors bean="${topicInstance}">
                         <ul class="errors" role="alert">
@@ -46,17 +46,18 @@
                     </g:hasErrors>
                 </td></tr>
                 <tr><td>
+                <g:form controller="topic" action="save" >
                     %{--<fieldset class="form">--}%
                         <g:render template="topic_create"/>
                     %{--</fieldset>--}%
                     %{--<fieldset class="buttons">--}%
                         <g:submitButton name="create" class="save" value="${message(code: 'default.register.label1', default: 'Create')}" />
                     %{--</fieldset>--}%
-
+                </g:form>
                 </td></tr>
                 <tr><td>
                 </td></tr>
-                </g:form>
+
             </table>
 
         </div>

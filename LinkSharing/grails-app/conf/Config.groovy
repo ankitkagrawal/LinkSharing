@@ -59,6 +59,19 @@ grails {
     }
 }
 
+grails {
+    mail {
+        host = "smtp.gmail.com"
+        port = 465
+        username = "ankitk@intelligrape.com"
+        password = "Oct@2014"
+        props = ["mail.smtp.auth":"true",
+                 "mail.smtp.socketFactory.port":"465",
+                 "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+                 "mail.smtp.socketFactory.fallback":"false"]
+
+    } }
+
 
 grails.converters.encoding = "UTF-8"
 // scaffolding templates configuration
@@ -93,13 +106,16 @@ environments {
         photo.location.default="/LinkSharing/assets/default.jpg"
         user.doc.location="grails-app/assets/docs/"
         user.doc.download="/LinkSharing/assets/docs/"
+        assets.location="/LinkSharing/assets"
 
     }
     qa {
-        user.doc.location="grails-app/assets/docs/"
-        user.photo.location.login= "grails-app/assets/images/user/"
-        user.photo.location.profile="/LinkSharing/assets/user/"
-        photo.location.default="/LinkSharing/assets/default.jpg"
+        assets.location="/assets"
+        user.doc.location="assets/docs/"
+        user.doc.download="/assets/docs/"
+        user.photo.location.login= "assets/images/user/"
+        user.photo.location.profile="/assets/user/"
+        photo.location.default="/assets/default.jpg"
     }
     production {
         grails.logging.jul.usebridge = false

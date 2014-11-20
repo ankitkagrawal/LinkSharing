@@ -9,6 +9,7 @@ import grails.transaction.Transactional
 class TopicController {
 
     TopicService topicService
+    def subscriptionService
 
     def scaffold = true
 
@@ -21,18 +22,9 @@ class TopicController {
 
         topicInstance.user=session["user"] as User
 
-/*
-        if (topicInstance.hasErrors()) {
-            respond topicInstance.errors, view:'create'
-            return
-        }
-*/
-
         topicInstance.save flush:true,failOnError: true
 
         topicInstance=topicService.subscribeCreator(topicInstance)
-
-//        respond view: 'index',params:["topic":topicInstance]
 
         index(topicInstance)
 
@@ -53,6 +45,35 @@ class TopicController {
         index(topic)
     }
 
+    def update(){
+
+        topicService.updateVisibility(params.visibility,params.topicId)
+
+        subscriptionService.updateSeriousness(params.seriousness,params.topicId,params.userId)
+
+        redirect(controller: "user",action: "dashboard")
+
+    }
+
+    def deleteTopic(){
+
+        String topicId = params.topicId
+
+        Topic topic = Topic.findById(topicId.toLong())
+
+        topic.delete flush: true
+
+        redirect(controller: "user",action: "dashboard")
+    }
+
+    def search(){
+
+        List searchList = topicService.search(params.search_text)
+        List<Topic> trendingTopicList = topicService.trendingTopicList()
+
+        render(view: "search",model: [itemList:searchList,keyword:params.search_text,trendingTopics:trendingTopicList])
+
+    }
 
 
 }

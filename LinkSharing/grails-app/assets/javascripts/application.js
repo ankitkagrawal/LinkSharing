@@ -18,3 +18,14 @@ if (typeof jQuery !== 'undefined') {
 		});
 	})(jQuery);
 }
+
+
+function toggleSearch(){
+
+    var txt=document.getElementById('search_text');
+
+    if(txt.value=="Search...")
+        txt.value="";
+    else if(txt.value=="")
+        txt.value="Search..."
+}

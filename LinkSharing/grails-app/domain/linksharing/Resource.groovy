@@ -23,4 +23,8 @@ abstract class Resource {
 
 
     }
+
+    static mapping = {
+        tablePerHierarchy(false)
+    }
 }

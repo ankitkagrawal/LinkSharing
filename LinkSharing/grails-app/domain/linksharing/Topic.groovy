@@ -20,4 +20,8 @@ class Topic {
         name unique: 'user'
 
     }
+
+    String toString(){
+        return name
+    }
 }

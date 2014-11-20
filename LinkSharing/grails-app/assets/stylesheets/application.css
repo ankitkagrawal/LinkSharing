@@ -79,3 +79,10 @@
     padding: 0em;
     line-height: normal;
 }
+
+.formAttr{
+    font-size: xx-small;
+    height: 18px;
+    width: 73px;
+    margin-right: 3px;
+}

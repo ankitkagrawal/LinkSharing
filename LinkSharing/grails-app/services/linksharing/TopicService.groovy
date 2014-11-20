@@ -58,15 +58,16 @@ class TopicService {
         }
         return topicList.size()>5?topicList.subList(0,5):topicList
 
-        /*def criteria = Resource.createCriteria()
-
-        def result = criteria.list {
+      /*  def criteria = Resource.createCriteria().listDistinct {
 
             projections{
                 groupProperty('topic')
                 rowCount('total')
             }
 
+            "topic"{
+                eq('visibility',Visibility.PUBLIC)
+            }
             order('total','desc')
             maxResults(5)
 
@@ -103,7 +104,31 @@ class TopicService {
         return  topicList
         }
 
+    def updateVisibility(def visibility,def topicId){
 
+            Topic topic = Topic.findById(topicId.toLong())
+
+            topic.visibility=visibility
+
+            topic.save flush: true,failOnError: true
+    }
+
+
+    List<Resource> search(String keyword){
+
+        println keyword
+
+        keyword=keyword.trim().toLowerCase()
+
+//        keyword.replaceAll("\$","\\\$");
+
+//        List<Topic> topicList = Topic.findAllByNameIlike(keyword)
+
+        List<Resource> resourceList = Resource.findAllByDescriptionIlikeOrTitleIlike("%"+keyword+"%","%"+keyword+"%")
+
+        return resourceList
+
+    }
 
 
 

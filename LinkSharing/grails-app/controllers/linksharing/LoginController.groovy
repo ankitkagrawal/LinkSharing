@@ -1,6 +1,16 @@
 package linksharing
 
-class LoginController {
+import grails.validation.ValidationException
+
+class BaseController{
+    void infoMessage(String message){
+        flash.info = message
+    }
+    void errorMessage(String message){
+        flash.error = message
+    }
+}
+class LoginController extends BaseController{
 
     def userService
 
@@ -38,9 +48,15 @@ class LoginController {
             respond userCommandInstance.errors,  view:'login'
             return
         }
+        /*try{
+            User userInstance =userService.savePhotoAndReturnUser(userCommandInstance)
+        }catch (ValidationException ve){
+
+        }catch(Exception e){
+
+        }*/
 
         User userInstance =userService.savePhotoAndReturnUser(userCommandInstance)
-
 
         if (userInstance.hasErrors()) {
             respond userInstance.errors, view:'login'
