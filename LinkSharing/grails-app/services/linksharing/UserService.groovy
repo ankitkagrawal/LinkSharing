@@ -12,23 +12,27 @@ class UserService {
 
     }
 
-    def savePhotoAndReturnUser(UserCommand userCommandInstance){
+    def savePhotoAndReturnUser(UserCommand userCommandInstance, User userInstance){
 
-        User userInstance = new User()
+//        User userInstance = new User()
         userInstance.properties = userCommandInstance.properties
 
-        CommonsMultipartFile sbc = userCommandInstance.photo
-        String imageType = sbc.contentType
+        if(!userCommandInstance.photo.empty) {
+            CommonsMultipartFile sbc = userCommandInstance.photo
+            String imageType = sbc.contentType
 
-        imageType = imageType.split("/")[1]
-        String timeStamp = System.currentTimeMillis().toString()
-        String imageName = timeStamp + "." + imageType
+            imageType = imageType.split("/")[1]
+            String timeStamp = System.currentTimeMillis().toString()
+            String imageName = timeStamp + "." + imageType
 
             File photoOnServer = new File(grailsApplication.config.user.photo.location.login + imageName)
             photoOnServer.bytes = sbc.bytes
 
             userInstance.userPhoto = imageName
-
+        }
+        else if (userInstance.userPhoto==null){
+            userInstance.userPhoto = "default.jpg"
+        }
             return userInstance
 
     }

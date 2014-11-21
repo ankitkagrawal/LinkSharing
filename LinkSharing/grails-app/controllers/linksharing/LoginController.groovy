@@ -31,10 +31,9 @@ class LoginController extends BaseController{
         }
     }
 
-    def logoutHander(String userName){
-        session["user"]=null
+    def logoutHander(){
         session.invalidate()
-        render(view:"login")
+        redirect(action: "index")
     }
 
 

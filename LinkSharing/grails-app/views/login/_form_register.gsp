@@ -30,7 +30,7 @@
 <div class="fieldcontain ${hasErrors(bean: userCommandInstance, field: 'photo', 'error')} required">
     <label for="photo">
         <g:message code="user.photo.label" default="Photo" />
-        <span class="required-indicator">*</span>
+        %{--<span class="required-indicator">*</span>--}%
     </label>
     <input type="file" id="photo" name="photo" value="${userCommandInstance?.photo}"/>
 

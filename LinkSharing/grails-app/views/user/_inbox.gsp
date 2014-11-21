@@ -1,8 +1,8 @@
 <div class="inbox">
     <table>
-        <th>Inbox</th>
+        %{--<th>Inbox</th>--}%
 
-        <ls:showResource resourceList="${itemList}"></ls:showResource>
+        <ls:showResource ListType="Inbox" resourceList="${itemList}"></ls:showResource>
 
     </table>
 

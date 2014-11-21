@@ -130,6 +130,30 @@ class TopicService {
 
     }
 
+    List<Topic> getTopicsCreatedByUserByVisibility(User user,Visibility visibility){
+
+        List<Topic> topicList = Topic.createCriteria().listDistinct{
+
+            eq('visibility',visibility)
+            eq('user',user)
+
+            order('dateCreated','desc')
+        }
+
+        return topicList
+    }
+
+    List<Topic> getAllTopicsCreatedByUser(User user){
+        List<Topic> topicList = Topic.createCriteria().listDistinct{
+
+            eq('user',user)
+
+            order('dateCreated','desc')
+        }
+        return topicList
+
+    }
+
 
 
 

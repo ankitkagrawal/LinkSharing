@@ -34,13 +34,29 @@
             </g:form>
         </div>
 
-        <div style="float: right; padding: 7px;margin-right: 55px;">
+        <g:if test="${session['user']}">
+
+        <div style="float: right; padding: 7px;">
+            <div style="float: left;">
             <asset:image src="chat-icon1.ico" width="30" height="30" alt="Home" title="Create New Topic"></asset:image>
             <g:link controller="mail" action="index" ><asset:image src="mail-icon.png" width="30" height="30" alt="Home" title="Send Invitation"></asset:image></g:link>
             <g:link controller="linkResource" action="create" ><asset:image src="link-icon1.png" width="30" height="30" alt="linkResource" title="Add Link Resource"></asset:image></g:link>
             <g:link controller="documentResource" action="create" ><asset:image src="doc-icon.png" width="30" height="30" alt="docResource" title="Add Document Resource"></asset:image></g:link>
-            <g:link controller="login" action="logoutHander" >Logout</g:link>
+            </div>
+            <div id='cssmenu'>
+                <ul>
+                    <li class='active has-sub'><a href='#'><span>${session.user?.firstName}</span></a>
+                        <ul>
+                            <li><g:link controller="user" action="editProfile" ><span>Profile</span></g:link></li>
+                            <li><g:link controller="login" action="logoutHander" ><span>Logout</span></g:link></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
         </div>
+        </g:if>
+
     </div>
 
 	<g:layoutBody/>

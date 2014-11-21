@@ -1,6 +1,6 @@
-<table class="topicTable">
-    <th>Subscribed Topics</th>
-    <ls:showTopics topicType="subscriptions" topicList="${subscribedTopicList}"></ls:showTopics>
+%{--<table class="topicTable">
+    <th>Subscribed Topics</th>--}%
+    <ls:showTopics topicType="Subscribed Topics" topicList="${subscribedTopicList}"></ls:showTopics>
 
 
 
@@ -13,4 +13,4 @@
     </td></tr>
 
     <% } %>--}%
-</table>
+%{--</table>--}%

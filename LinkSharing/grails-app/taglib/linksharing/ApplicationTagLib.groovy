@@ -35,7 +35,8 @@ class ApplicationTagLib {
         String type=attr.topicType
         def topicList = attr.topicList
 
-        if(type.equalsIgnoreCase("trendingTopics") || type.equalsIgnoreCase("subscriptions")) {
+        out << "<table class=\"topicTable\"><th>${type}</th>"
+
             topicList.each { topic ->
 
                 out << "<tr><td><div style=\"float: left;padding: 5px;\">"
@@ -54,7 +55,8 @@ class ApplicationTagLib {
 
                 out<< "</td></tr>"
             }
-        }
+
+        out << "</table>"
     }
 
     def isEditable = { attrs ->
@@ -160,7 +162,10 @@ class ApplicationTagLib {
     def showResource={ attrs ->
 
         List<Resource> resourceList = attrs.resourceList
+        String header = attrs.ListType
         User user = attrs.user
+
+        out << "<th>${header}</th>"
 
         resourceList.each { resource ->
 
@@ -236,7 +241,7 @@ class ApplicationTagLib {
             out << "<tr><td><div style=\"float: left;padding: 5px;\">"
             out << g.img(uri: "${grailsApplication.config.user.photo.location.profile+user.userPhoto}",width:"80", height:"80")
             out << "</div><div style=\"padding: 5px;\">"
-            out << g.link(controller: "user", action: "showUserProfile", params: [userId: user.id]){ "${ user.firstName+" "+user.lastName}" }
+            out << g.link(controller: "user", action: "showUserProfile", params: [id: user.id]){ "${ user.firstName+" "+user.lastName}" }
             out << "</div><div style=\"font-size: x-small;\">@${user.firstName}</div><div style=\"float: left;margin: 5px;\">"
             out << "<a class=\"topicDetail\">Subscriptions <br>${user.topics.size()}</div><div style=\"float: left;margin: 5px;\"> Posts <br>"+
                     "${user.resources.size()} </div></td></tr>"

@@ -68,5 +68,21 @@ class ResourceService {
         return documentResourceInstance
     }
 
+    List<Resource> getAllPublicPostsOfUser(User user){
+
+        List<Resource> resourceList = Resource.createCriteria().list {
+
+            eq('user',user)
+            "topic"{
+                eq('visibility',Visibility.PUBLIC)
+            }
+
+            order('dateCreated','desc')
+
+        }
+
+        return resourceList
+
+    }
 
 }
